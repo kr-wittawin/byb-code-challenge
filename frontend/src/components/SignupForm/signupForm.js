@@ -12,14 +12,22 @@ function SignupForm() {
   const [ErrorMsg, setErrorMsg] = useState("");
 
   function validateForm() {
+    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
     if (!FullName) {
       return "Please enter your full name";
     }
     if (!Email) {
       return "Please enter your email";
     }
+    if (!emailRegex.test(Email)) {
+      return "Please enter a valid email";
+    }
     if (!Password) {
       return "Please enter your password";
+    }
+    if (Password.length < 5) {
+      return "Password must be more than 5 characters";
     }
     if (!ConfirmPassword) {
       return "Please confirm your password";
@@ -34,7 +42,6 @@ function SignupForm() {
   function signup() {
     var isFormValidated = validateForm() === "";
     if (isFormValidated) {
-      console.log("SIGNUP", FullName, Email, Password);
       var objectToSend = {
         fullname: FullName,
         email: Email,

@@ -11,8 +11,6 @@ const signup = (req, res) => {
             });
         }
 
-        console.log("BODY: ", body);
-
         const newUser = new User(body);
 
         if (!newUser) {
@@ -25,6 +23,9 @@ const signup = (req, res) => {
         newUser
             .save()
             .then(() => {
+                
+                // send email
+
                 return res.status(201).json({
                     success: true,
                     id: newUser._id,
