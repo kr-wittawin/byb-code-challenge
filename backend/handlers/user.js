@@ -11,6 +11,8 @@ const signup = (req, res) => {
             });
         }
 
+        console.log("BODY: ", body);
+
         const newUser = new User(body);
 
         if (!newUser) {
