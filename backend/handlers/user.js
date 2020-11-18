@@ -1,6 +1,7 @@
+const email = require("../service/email");
 const User = require('../database/user');
 
-const signup = (req, res) => {
+const signup = async (req, res) => {
     try {
         const body = req.body;
 
@@ -20,12 +21,17 @@ const signup = (req, res) => {
             });
         }
 
-        newUser
+        var email_success = await email.sendEmailSafe(body.email);
+        if (!email_success) {
+            return res.status(500).json({
+                e,
+                message: 'Email service down. Please contact support or try again later',
+            });
+        }
+
+        await newUser
             .save()
             .then(() => {
-                
-                // send email
-
                 return res.status(201).json({
                     success: true,
                     id: newUser._id,
@@ -37,7 +43,8 @@ const signup = (req, res) => {
                     e,
                     message: 'New user not created',
                 });
-            })
+            });
+
     }
     catch (e) {
         return res.status(500).json({

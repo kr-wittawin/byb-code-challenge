@@ -47,6 +47,7 @@ function SignupForm() {
         email: Email,
         password: Password
       }
+      
       routes.signup(objectToSend)
         .then(res => {
           setFullName("");
